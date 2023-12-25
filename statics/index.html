@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input type="text" id="a" />
+        <input type="number" id="b" />
+        <input type="text" id="c" />
+        <input type="number" id="d" />
+        <input type="number" id="e" />
+        <input type="text" id="f" />
+        <input type="text" id="g" />
+        <input type="text" id="h" />
+        <input type="text" id="i" />
+        <input type="text" id="j" />
+        <input type="text" id="k" />
+        <input type="text" id="l" />
+        <input type="text" id="m" />
+        <input type="text" id="n" />
+        <input type="text" id="o" />
+        <input type="text" id="p" />
+        <button id="button">Submit</button>
+    </div>
+</body>
+</html>
+<script>
+   let obj = {
+  "name": document.getElementById('a').value,
+  "num1": document.getElementById('b').value,
+  "date": document.getElementById('c').value,
+  "num2": document.getElementById('d').value,
+  "num3": document.getElementById('e').value,
+  "name2": document.getElementById('f').value,
+  "name3": document.getElementById('g').value,
+  "name4": document.getElementById('h').value,
+  "name5": document.getElementById('i').value,
+  "name6": document.getElementById('j').value,
+  "name7": document.getElementById('k').value,
+  "name8": document.getElementById('l').value,
+  "name9": document.getElementById('m').value,
+  "name10": document.getElementById('n').value,
+  "name11": document.getElementById('o').value,
+  "name12": document.getElementById('p').value
+}
+
+document.getElementById('button').addEventListener('click',async()=>{
+     try {
+        const response = await fetch("http://localhost:3100/create-pdf", {
+                    method: "POST", // or 'PUT'
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(obj),
+            });
+
+    const result = await response.json();
+    console.log("Success:", result);
+     } catch (error) {
+        console.log("Error:", error);
+     }
+})
+</script>
