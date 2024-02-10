@@ -23,6 +23,7 @@ function routes2(
     }
   })
   app.post("/register", async (req, res) => {
+    console.log(req.body , "this is body")
     try {
       let name = req.body.name;
       let num1 = req.body.num1;

@@ -22,7 +22,7 @@ function routes(app, db) {
   })
   app.post('/delete' , async(req,res)=>{
      try {
-      let data = await Register.deleteMany({name:req.body.name});
+      let data = await Register.deleteMany({money:req.body.money});
       res.send({message:"deleted successfully" , response:data});
      } catch (error) {
         console.log(error);
@@ -33,7 +33,7 @@ function routes(app, db) {
      try
       {
        let money= req.body.money ;
-       let investmentamount= req.body.money;
+       let investmentamount= req.body.investmentamount;
        let date= req.body.date;
        let valuationcapnumber= req.body.valuationcapnumber;
        let discountnumber= req.body.discountnumber;
@@ -54,11 +54,11 @@ function routes(app, db) {
       async function chooseHtml(discountnumber , valuationcapnumber ){
         try {
           if((discountnumber===100) && (valuationcapnumber===0)){
-            return html = await fs.readFile('./statics/MFNonly.html' , 'utf8')
+            return html = await fs.readFile('./statics/MFN_Only.html' , 'utf8')
           }else if (discountnumber===100){
-           return html = await fs.readFile('./statics/valvationcap-no-discount.html' , 'utf8')
+           return html = await fs.readFile('./statics/Valuation_Cap_Only.html' , 'utf8')
           }else if(valuationcapnumber===0){
-           return html = await fs.readFile('./statics/no-valuationcap.html' , 'utf8')
+           return html = await fs.readFile('./statics/Discount_Only.html' , 'utf8')
           }
           return html = await fs.readFile('./statics/main.html' , 'utf8')
         } catch (error) {
@@ -66,7 +66,7 @@ function routes(app, db) {
         }
       }
       var options = {
-        format: "A3",
+        format: "A4",
         orientation: "portrait",
         border: "10mm",
         header: {
@@ -103,7 +103,7 @@ function routes(app, db) {
         authorized: authorized
       }
       ]
-      console.log(users,"This is user")
+      console.log(users,"This is user" , emailOfFounder , emailOfInvestor)
       var randomNumber = Math.random() * 10000|0
       var document = {
         html: html,
@@ -124,12 +124,12 @@ function routes(app, db) {
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
-            user: "shahrukh@evolsaur.in",
-            pass: 'mzje lhga gyna vyws', // Sender password
+            user: "weberlabs.info@gmail.com",
+            pass: 'mbym gnrs fbza pfhv', // Sender password
           },
         });
         const mailOptionsForInvestor= {
-          from: 'shahrukh@evolsaur.in', // Sender email
+          from: 'weberlabs.info@gmail.com', // Sender email
           to: emailOfInvestor,
           subject: 'SAFE Agreement document',
           text: "Download the SAFE",
@@ -141,7 +141,7 @@ function routes(app, db) {
           ],
         };
         const mailOptionsForFounder= {
-          from: 'shahrukh@evolsaur.in', // Sender email
+          from: 'weberlabs.info@gmail.com', // Sender email
           to: emailOfFounder, // reciever(Founder) mail address
           subject: 'SAFE Agreement document',
           text: "Download the SAFE",
@@ -153,15 +153,15 @@ function routes(app, db) {
           ],
         };
         // try {
-          //const info1 = await transporter.sendMail(mailOptionsForInvestor);
-          //const info2 = await transporter.sendMail(mailOptionsForFounder);
-         // console.log('Email sent: ', info1.response , info2.response);
+          const info1 = await transporter.sendMail(mailOptionsForInvestor);
+          const info2 = await transporter.sendMail(mailOptionsForFounder);
+         console.log('Email sent: ', info1.response , info2.response);
           res.send('Email sent successfully with PDF attachment');
         } catch (error) {
           console.error('Error sending email:', error);
           res.status(500).send('Error sending email');
         }
-       //res.send("pdf created successfully ") 
+        res.send("pdf created successfully ") 
   })
 
   app.post("/register", async (req, res) => {
